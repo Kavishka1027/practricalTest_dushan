@@ -1,58 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Subscription Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a simple subscription platform built with Laravel, MySQL, queues, and Vue.js.
 
-## About Laravel
+Users can subscribe to one or more websites using the UI or API. When a new post is created for a website, the system dispatches a queued job and sends an email notification to all subscribers of that website. Duplicate email delivery is prevented with the `sent_emails` table.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Main Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- REST APIs for listing websites, subscribing to websites, and creating posts
+- Vue.js frontend for selecting a website and subscribing with email validation
+- Background queue processing for post notification emails
+- HTML email template for new post notifications
+- Seeded website data for quick local testing
+- Service layer with contracts
+- Use case based controller flow for `Post`, `Subscription`, and `Website`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
 
-## Learning Laravel
+- Laravel 13
+- PHP 8.3 or higher
+- MySQL
+- Vue 3
+- Vite
+- Laravel queues
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## API Endpoints
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `GET /api/v1/websites`
+- `GET /api/v1/websites/{website}`
+- `POST /api/v1/websites/{website}/subscribe`
+- `POST /api/v1/websites/{website}/posts`
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Example subscription payload:
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```json
+{
+  "email": "subscriber@example.com"
+}
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Example post payload:
 
-## Contributing
+```json
+{
+  "title": "Laravel 13 Released",
+  "description": "A summary of the new framework improvements.",
+  "url": "https://example.com/posts/laravel-13-released"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The `url` field is optional. If omitted, the application generates a unique URL automatically.
 
-## Code of Conduct
+## Project Structure
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+This project uses a modular folder structure such as:
 
-## Security Vulnerabilities
+- `app/Post/...`
+- `app/Subscription/...`
+- `app/Website/...`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Each module follows a similar pattern:
 
-## License
+- `IO/Http/Controllers`
+- `UseCase`
+- `UseCase/Requests`
+- `Entities/Models`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Local Setup
+
+1. Clone the repository.
+2. Move into the project directory.
+3. Install PHP dependencies.
+4. Install Node dependencies.
+5. Create the environment file.
+6. Configure your database and mail settings.
+7. Generate the application key.
+8. Run migrations and seeders.
+9. Start the app and queue worker.
+
+Commands:
+
+```bash
+composer install
+npm install
+copy .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+composer run dev
+```
+
+`composer run dev` starts:
+
+- Laravel development server
+- queue listener
+- log viewer
+- Vite dev server
+
+If you prefer to run them separately:
+
+```bash
+php artisan serve
+php artisan queue:work
+npm run dev
+```
+
+If you want a production-style frontend build:
+
+```bash
+npm run build
+```
+
+## Special Instructions For Local Platform
+
+- Make sure your PHP version matches the Laravel requirement in `composer.json`.
+- Configure a MySQL database in `.env` before running migrations.
+- Configure `QUEUE_CONNECTION` properly if you want asynchronous email delivery.
+- Configure `MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, and `MAIL_PASSWORD` in `.env` for real email sending.
+- If you only want to test the flow without sending real emails, use `MAIL_MAILER=log` or `MAIL_MAILER=array`.
+- The queue worker must be running, otherwise post emails will stay in the queue and will not be sent.
+- Seeded website data is available after running `php artisan migrate --seed`.
+
+## Special Instructions For Remote Platform
+
+- Use a production web server such as Nginx or Apache and point the document root to `public/`.
+- Set `APP_ENV=production` and `APP_DEBUG=false`.
+- Run `php artisan config:cache`, `php artisan route:cache`, and `php artisan view:cache` in production.
+- Run `npm run build` during deployment so Vite assets are generated in `public/build`.
+- Run migrations on the server with:
+
+```bash
+php artisan migrate --force
+```
+
+- Run a persistent queue worker in production, for example:
+
+```bash
+php artisan queue:work --tries=3
+```
+
+- Ensure the server has correct write permissions for:
+  `storage/`
+  `bootstrap/cache/`
+
+## UI
+
+Visit `/` to use the Vue.js subscription interface.
+
+## Testing
+
+Run:
+
+```bash
+php artisan test
+```
+
+## Notes
+
+- No authentication is required for this task.
+- Emails are triggered when a new post is created for a website.
+- Duplicate post emails are prevented per subscriber and post combination.
