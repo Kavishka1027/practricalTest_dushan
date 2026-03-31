@@ -4,8 +4,28 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.vue';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Space Grotesk', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+    --page-bg: #f7f1e8;
+    --panel: rgba(255, 252, 246, 0.82);
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --accent: #b45309;
+    --accent-dark: #7c2d12;
+    --line: rgba(146, 64, 14, 0.16);
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(251, 191, 36, 0.28), transparent 34%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.2), transparent 28%),
+        linear-gradient(160deg, #f8f5ef 0%, #f5ecdf 48%, #efe1ce 100%);
+    color: var(--ink);
 }
