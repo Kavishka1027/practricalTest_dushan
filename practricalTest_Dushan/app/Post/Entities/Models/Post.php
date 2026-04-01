@@ -2,7 +2,7 @@
 
 namespace App\Post\Entities\Models;
 
-use App\SentEmail\Entities\Models\SentEmail;
+use App\SentEmail\Entities\Models\SentPostEmail;
 use App\Website\Entities\Models\Website;
 use App\Post\IO\Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +23,7 @@ class Post extends Model
 
     public function sentEmails(): HasMany
     {
-        return $this->hasMany(SentEmail::class);
+        return $this->hasMany(SentPostEmail::class);
     }
 
     protected static function newFactory(): PostFactory

@@ -14,7 +14,7 @@ class SubscriptionFactory extends Factory
     {
         return [
             'website_id' => Website::factory(),
-            'email' => $this->faker->unique()->safeEmail,
+            'email' => fake()->safeEmail(),
         ];
     }
 }

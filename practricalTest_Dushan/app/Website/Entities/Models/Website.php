@@ -3,6 +3,7 @@
 namespace App\Website\Entities\Models;
 
 use App\Post\Entities\Models\Post;
+use App\Post\IO\Database\Factories\PostFactory;
 use App\Subscription\Entities\Models\Subscription;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,6 @@ class Website extends Model
     protected $fillable = [
         'name',
         'url',
-        'email',
     ];
 
     public function posts(): HasMany
@@ -26,5 +26,10 @@ class Website extends Model
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    protected static function newFactory(): PostFactory
+    {
+        return PostFactory::new();
     }
 }
