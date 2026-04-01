@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Subscription Platform') }}</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=space-grotesk:400,500,700|instrument-sans:400,500,600" rel="stylesheet" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Platform11111111111111111</title>
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 <body>
-    <div
-        id="app"
-        data-websites-endpoint="{{ url('/api/v1/websites') }}"
-    ></div>
+<div
+    id="app"
+    data-websites-endpoint="{{ url('/api/v1/websites') }}"
+></div>
 </body>
 </html>

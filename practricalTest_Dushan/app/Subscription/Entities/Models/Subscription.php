@@ -2,6 +2,7 @@
 
 namespace App\Subscription\Entities\Models;
 
+use App\SentEmail\Entities\Models\SentPostEmail;
 use App\Website\Entities\Models\Website;
 use App\Subscription\IO\Database\Factories\SubscriptionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,10 @@ class Subscription extends Model
         return $this->belongsTo(Website::class);
     }
 
+    public function sentEmails()
+    {
+        return $this->hasMany(SentPostEmail::class);
+    }
 
     protected static function newFactory(): SubscriptionFactory
     {
