@@ -13,10 +13,9 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'website_id' => Website::factory(),
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'url' => $this->faker->unique()->url,
+            'website_id' => Website::factory()->create(),
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(),
         ];
     }
 }

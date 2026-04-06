@@ -1,11 +1,5 @@
-import './bootstrap';
+
 import { createApp } from 'vue';
-import SubscriptionApp from './components/SubscriptionApp.vue';
+import SubscribeForm from './components/SubscribeForm.vue';
 
-const el = document.getElementById('app');
-
-if (el) {
-    createApp(SubscriptionApp, {
-        websitesEndpoint: el.dataset.websitesEndpoint,
-    }).mount(el);
-}
+createApp(SubscribeForm).mount('#app');

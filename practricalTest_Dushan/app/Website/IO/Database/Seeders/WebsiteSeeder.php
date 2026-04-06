@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Website\IO\Database\Seeders;
 
 use App\Website\Entities\Models\Website;
@@ -14,34 +13,29 @@ class WebsiteSeeder extends Seeder
             [
                 'name' => 'TechCrunch',
                 'url' => 'https://techcrunch.com',
-                'email' => 'newsroom@techcrunch.com',
             ],
             [
                 'name' => 'The Verge',
                 'url' => 'https://theverge.com',
-                'email' => 'tips@theverge.com',
             ],
             [
                 'name' => 'Wired',
                 'url' => 'https://wired.com',
-                'email' => 'news@wired.com',
             ],
             [
                 'name' => 'Engadget',
                 'url' => 'https://engadget.com',
-                'email' => 'editors@engadget.com',
             ],
             [
                 'name' => 'Mashable',
                 'url' => 'https://mashable.com',
-                'email' => 'hello@mashable.com',
             ],
         ];
 
         foreach ($websites as $website) {
             Website::updateOrCreate(
                 ['url' => $website['url']],
-                $website
+                ['name' => $website['name']]
             );
         }
     }

@@ -3,14 +3,21 @@
 namespace App\Subscription\IO\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Subscription\UseCase\Requests\SubscriptionRequest;
-use App\Subscription\UseCase\SubscribeWebsiteInteractor;
+use App\Subscription\UseCase\Requests\StoreSubscriptionRequest;
+use App\Subscription\UseCase\SubscribeToWebsiteInteractor;
 use Illuminate\Http\JsonResponse;
 
 class SubscriptionController extends Controller
 {
-    public function subscribe(SubscriptionRequest $request, SubscribeWebsiteInteractor $interactor): JsonResponse
-    {
-        return $interactor->execute($request);
+    public function store(
+        StoreSubscriptionRequest $request,
+        SubscribeToWebsiteInteractor $interactor
+    ): JsonResponse {
+        $subscription = $interactor($request);
+
+        return response()->json([
+            'message' => 'Subscription created successfully.',
+            'data' => $subscription,
+        ], 201);
     }
 }

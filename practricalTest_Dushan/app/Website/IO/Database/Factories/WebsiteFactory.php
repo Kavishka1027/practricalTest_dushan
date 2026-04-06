@@ -12,9 +12,8 @@ class WebsiteFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company,
-            'url' => $this->faker->url,
-            'email' => $this->faker->unique()->companyEmail,
+            'name' => fake()->company(),
+            'url' => fake()->unique()->url(),
         ];
     }
 }
